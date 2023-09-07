@@ -3,10 +3,15 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Greet from './screens/Greet';
 import { NavigationContainer } from '@react-navigation/native';
 import Home from './screens/Home';
+import { useEffect, useState } from 'react';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import GreetLoader from './screens/GreetLoader';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  
+  
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -21,8 +26,16 @@ export default function App() {
           ),
           headerTitleAlign: "center",
         }}
-        initialRouteName="Greet"
+        
+        initialRouteName={"GreetLoader"}
       >
+        <Stack.Screen
+          name="GreetLoader"
+          options={{
+            headerShown: false,
+          }}
+          component={GreetLoader}
+        />
         <Stack.Screen
           name="Greet"
           options={{
@@ -37,7 +50,20 @@ export default function App() {
           }}
           component={Greet}
         />
-        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            headerRight: () => (
+              <View>
+                <Image
+                  source={require("./assets/avatar.png")}
+                  style={{ width: 50, height: 50, objectFit: "contain" }}
+                />
+              </View>
+            ),
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

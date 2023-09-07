@@ -8,10 +8,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Greet = ({navigation}) => {
+const Greet = ({ navigation }) => {
+  
   const [nameValue, setNameValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
 
@@ -23,7 +24,7 @@ const Greet = ({navigation}) => {
       }));
         const data = await AsyncStorage.getItem(nameValue);
           console.log("Data stored successfully data is: ", JSON.parse(data));
-          navigation.navigate("Home");
+          navigation.replace("Home");
         
     } catch (error) {
       console.error("Error storing data:", error);
