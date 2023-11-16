@@ -1,17 +1,20 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Greet from './screens/Greet';
-import { NavigationContainer } from '@react-navigation/native';
-import Home from './screens/Home';
-import { useEffect, useState } from 'react';
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import GreetLoader from './screens/GreetLoader';
+import Greet from "./screens/Greet";
+import { NavigationContainer } from "@react-navigation/native";
+import Home from "./screens/Home";
+import GreetLoader from "./screens/GreetLoader";
+import Profile from "./screens/Profile";
+import { Button } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  
-  
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -26,7 +29,6 @@ export default function App() {
           ),
           headerTitleAlign: "center",
         }}
-        
         initialRouteName={"GreetLoader"}
       >
         <Stack.Screen
@@ -35,6 +37,32 @@ export default function App() {
             headerShown: false,
           }}
           component={GreetLoader}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={({ navigation, route }) => ({
+            headerRight: (props) => (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("Profile", { screen: "Profile" })
+                }
+              >
+                <Image
+                  source={require("./assets/avatar.png")}
+                  style={{ width: 50, height: 50, objectFit: "contain" }}
+                />
+              </TouchableOpacity>
+            ),
+            headerBackVisible: false,
+            headerLeft: (props) => (
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+              >
+                <Image source={require("./assets/back.png")} />
+              </TouchableOpacity>
+            ),
+          })}
         />
         <Stack.Screen
           name="Greet"
@@ -53,16 +81,20 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={Home}
-          options={{
-            headerRight: () => (
-              <View>
+          options={({ navigation, route }) => ({
+            headerRight: (props) => (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("Profile", { screen: "Profile" })
+                }
+              >
                 <Image
                   source={require("./assets/avatar.png")}
                   style={{ width: 50, height: 50, objectFit: "contain" }}
                 />
-              </View>
+              </TouchableOpacity>
             ),
-          }}
+          })}
         />
       </Stack.Navigator>
     </NavigationContainer>
@@ -72,8 +104,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
